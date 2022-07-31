@@ -6,22 +6,35 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Configuration files
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- ```package.json```: The package. json file is the heart of any Node project. It records important metadata about a project which is required before publishing to NPM, and also defines functional attributes of a project that npm uses to install dependencies, run scripts, and identify the entry point to our package.
+- ```tsconfig.json```: A given Angular workspace contains several TypeScript configuration files. At the root tsconfig.json file specifies the base TypeScript and Angular compiler options that all projects in the workspace inherit.
+- ```angular.json```: A file named angular.json at the root level of an Angular workspace provides workspace-wide and project-specific configuration defaults for build and development tools provided by the Angular CLI. Path values given in the configuration are relative to the root workspace folder.
 
-## Build
+## Structure of Angular source
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+<img width="450" alt="Screen Shot 2022-07-31 at 2 07 59 AM" src="https://user-images.githubusercontent.com/39740066/182011071-6db1fc5c-a5d0-4b43-ba68-5b42b5ce5851.png">
 
-## Running unit tests
+- ```NgModule```: @NgModule takes a metadata object that describes how to compile a component's template and how to create an injector at runtime. It identifies the module's own components, directives, and pipes, making some of them public, through the exports property, so that external components can use them.
+```typescript
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- ```Component```: Angular components are a subset of directives, always associated with a template. Unlike other directives, only one component can be instantiated for a given element in a template. A component must belong to an NgModule in order for it to be available to another component or application.
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## References
+- https://youtu.be/3dHNOWTI7H8
+- https://heynode.com/tutorial/what-packagejson/
+- https://angular.io/guide/typescript-configuration
+- https://angular.io/guide/workspace-config
+- https://angular.io/api/core/Component
