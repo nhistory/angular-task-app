@@ -90,6 +90,160 @@ export class HeaderComponent implements OnInit {
 
 If you want to make specific style setup, you need to add some code on the ```header.component.css```.
 
+## Embed button component inside of header component
+
+For now, we gonna make another angular component by using angularCLI. Enter the command ```ng generate component components/button```. The button component should be embedded inside of header component. For doing this, you can add ```<app-button></app-button>``` tag on the ```header.component.html```.
+
+```html
+<header>
+  <h1>{{ title }}</h1>
+  <app-button></app-button>
+</header>
+
+```
+
+And then, we can see 'button works!' text is added on the localhost page. After changing this tag into <button>Click</button>, there is a button with text click.
+
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/183690769-62889647-ee12-43c8-adf9-74858f8d9a31.png">
+
+But button component ```color``` and ```text``` should be changed by diffenrent context. For doing this, you can use ```@Input``` and ```[ngStyle]```.
+
+```typescript
+import { Component, OnInit, Input } from '@angular/core';
+...
+export class ButtonComponent implements OnInit {
+  @Input() text: string;
+  @Input() color: string;
+
+  constructor() {
+    this.text = '';
+    this.color = '';
+  }
+
+  ngOnInit(): void {}
+}
+```
+
+As you can see, ```Input``` make variable that can be used inside of html with {{}}. And ```[ngStyle]``` can controll CSS style directly with ```color``` variable.
+
+```html
+<button [ngStyle]="{ 'background-color': color }" class="btn">
+  {{ text }}
+</button>
+```
+
+Now you can change color and text of button component on the ```header.component.html``` with attribute.
+
+```html
+<header>
+  <h1>{{ title }}</h1>
+  <app-button color="green" text="Add"></app-button>
+</header>
+```
+
+## Customize function
+
+Depending on purpose of the button component, you probably want to customize button feature. In order to do this, we should use ```Output``` and ```EventEmitter```.
+
+### 1. Make onClick() for button click.
+
+```html
+<button
+  [ngStyle]="{ 'background-color': color }"
+  class="btn"
+  (click)="onClick()"
+>
+  {{ text }}
+</button>
+```
+
+### 2. Import Output and EventEmitter
+
+In this project, we are making header component with button component. If other component want to use same button component, each button click would make different functionalities. For doing this, you need to add customized function and import several modules.
+
+- Output: @Output decorator is used to pass the data from child to parent component. @Output decorator binds a property of a component, to send data from one component to the calling component. @Output binds a property of the type of angular EventEmitter class.
+- EventEmitter: EventEmitter is a module that helps share data between components using emit() and subscribe() methods. EventEmitter is in the Observables layer, which observes changes and values and emits the data to the components subscribed to that EventEmitter instance.
+
+First of all, add a ```(click)``` attribute on the ```<button>``` tag.
+
+```html
+<button
+  [ngStyle]="{ 'background-color': color }"
+  class="btn"
+  (click)="onClick()"
+>
+  {{ text }}
+</button>
+```
+
+After than, make an ```onClick()``` methon on the ```button.component.ts``` with using ```@Output``` and ```EventEmitter```.
+
+```typescript
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-button',
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.css'],
+})
+export class ButtonComponent implements OnInit {
+  @Input() text: string;
+  @Input() color: string;
+  @Output() btnClick = new EventEmitter();
+
+  constructor() {
+    this.text = '';
+    this.color = '';
+  }
+
+  ngOnInit(): void {}
+
+  onClick() {
+    this.btnClick.emit();
+  }
+}
+```
+
+```btnClick``` method is for sharing data between button and header component. Inside of ```header.component.html```, add a ```(btnClick)="toggleAddTask()`` attribute to get information whether button is clicked or not.
+
+```html
+<header>
+  <h1>{{ title }}</h1>
+  <app-button
+    color="green"
+    text="Add"
+    (btnClick)="toggleAddTask()"
+  ></app-button>
+</header>
+```
+
+And define ```toggleAddTask()``` function on the ```header.component.ts```.
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
+})
+export class HeaderComponent implements OnInit {
+  title: string = 'Task Tracker';
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  toggleAddTask() {
+    console.log('toggle');
+  }
+}
+```
+
+When you click the button, you can see 'toggle' on the console window like below.
+
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/183738259-ee6df4aa-3dc5-4d36-aeec-fdd32a79f2c1.png">
+
+
 ## References
 - https://youtu.be/3dHNOWTI7H8
 - https://heynode.com/tutorial/what-packagejson/
