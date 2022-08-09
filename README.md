@@ -7,6 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 An task application made by Angular framework with angular CLI 13.3.6.
 - Learned basic structure of Angular framework with Ngmodule and components.
 - Created and updated components and module declarations by Angular CLI command.
+- Shared data between components with using Input, Output, EventEmitter modules.
 
 ## Development server
 
