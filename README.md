@@ -244,6 +244,55 @@ When you click the button, you can see 'toggle' on the console window like below
 
 <img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/183738259-ee6df4aa-3dc5-4d36-aeec-fdd32a79f2c1.png">
 
+### 3. Task data json
+
+These data below is for test UI in this project. ```Task.ts``` exports ```Task``` as an interface. ```mock-tasks.ts``` imports this ```Task``` and exports list of JSON format as ```TASKS```.
+
+Task.ts
+```typescript
+export interface Task {
+  id?: number;
+  text: string;
+  day: string;
+  reminder: boolean;
+}
+```
+
+mock-tasks.ts
+```typescript
+import { Task } from './Task';
+
+export const TASKS: Task[] = [
+  {
+    id: 1,
+    text: 'Doctors Appointment',
+    day: 'May 5th at 2:30pm',
+    reminder: true,
+  },
+  {
+    id: 2,
+    text: 'Meeting at School',
+    day: 'May 6th at 1:30pm',
+    reminder: true,
+  },
+  {
+    id: 3,
+    text: 'Food Shopping',
+    day: 'May 7th at 12:30pm',
+    reminder: false,
+  },
+];
+```
+
+### 4. Create task component
+
+Using angularCLI, make task component. Import ```Task``` and ```TASKS``` from data files, and show ```tasks.text``` on the ```tasks.component.html```.
+
+```html
+<p *ngFor="let task of tasks">{{ task.text }}</p>
+```
+
+- *ngFor: *ngFor is a predefined directive in Angular. It accepts an array to iterate data over atemplate to replicate the template with different data. It's the same as the forEach() method in JavaScript, which also iterates over an array.
 
 ## References
 - https://youtu.be/3dHNOWTI7H8
@@ -252,3 +301,4 @@ When you click the button, you can see 'toggle' on the console window like below
 - https://angular.io/guide/workspace-config
 - https://angular.io/api/core/Component
 - https://angular.io/api/core/OnInit
+- https://www.pluralsight.com/guides/repeating-data-with-ngfor
