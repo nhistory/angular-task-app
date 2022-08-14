@@ -294,6 +294,110 @@ Using angularCLI, make task component. Import ```Task``` and ```TASKS``` from da
 
 - *ngFor: *ngFor is a predefined directive in Angular. It accepts an array to iterate data over atemplate to replicate the template with different data. It's the same as the forEach() method in JavaScript, which also iterates over an array.
 
+### 5. Angular font awesome
+
+If we need to use font awesome, you can use angularCLI command ```ng add @fortawesome/angular-fontawesome@<version>```. You should check version compatibilities between angular and [angular font awesome](https://github.com/FortAwesome/angular-fontawesome) module.
+
+Now we can use font awesome icons with adding attribute on the specific html tag.
+
+- import specific modules from @fortawesome module
+```typescript
+import { Component, OnInit, Input } from '@angular/core';
+import { Task } from 'src/app/Task';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+@Component({
+  selector: 'app-task-item',
+  templateUrl: './task-item.component.html',
+  styleUrls: ['./task-item.component.css'],
+})
+export class TaskItemComponent implements OnInit {
+  @Input() task!: Task;
+  faTimes = faTimes;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+- Add attribute and change style with [ngStyle].
+```typescript
+<div class="task">
+  <h3>
+    {{ task.text }}
+    <fa-icon [ngStyle]="{ color: 'red' }" [icon]="faTimes"></fa-icon>
+  </h3>
+  <p>{{ task.day }}</p>
+</div>
+```
+
+### 6. Generate services
+
+What is the ```service``` on the Angular?
+
+Service is a broad category encompassing any value, function, or feature that an application needs. A service is typically a class with a narrow, well-defined purpose. It should do something specific and do it well. Angular distinguishes components from services to increase modularity and reusability.
+
+task.service.ts
+```typescript
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TaskService {
+
+  constructor() { }
+}
+```
+
+- Injectable: The @Injectable() decorator defines a class as a service in Angular and allows Angular to inject it into a component as a dependency. Likewise, the @Injectable() decorator indicates that a component, class, pipe, or NgModule has a dependency on a service. The injector is the main mechanism.
+
+To control task data inside of ```task.service.ts```, we can use ```Observable``` and ```of``` after import ```Task``` and ```TASKS```.
+
+- Objervable: Observables provide support for passing messages between parts of your application. They are used frequently in Angular and are a technique for event handling, asynchronous programming, and handling multiple values.
+
+task.service.ts
+```typescript
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { Task } from 'src/app/Task';
+import { TASKS } from 'src/app/mock-tasks';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TaskService {
+  constructor() {}
+
+  getTasks(): Observable<Task[]> {
+    const tasks = of(TASKS);
+    return tasks;
+  }
+}
+```
+
+task.component.ts
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { Task } from 'src/app/Task';
+import { TaskService } from 'src/app/services/task.service';
+@Component({
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.css'],
+})
+export class TasksComponent implements OnInit {
+  tasks: Task[] = [];
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+  }
+}
+```
+
 ## References
 - https://youtu.be/3dHNOWTI7H8
 - https://heynode.com/tutorial/what-packagejson/
@@ -302,3 +406,4 @@ Using angularCLI, make task component. Import ```Task``` and ```TASKS``` from da
 - https://angular.io/api/core/Component
 - https://angular.io/api/core/OnInit
 - https://www.pluralsight.com/guides/repeating-data-with-ngfor
+- https://angular.io/guide/architecture-services
