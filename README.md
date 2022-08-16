@@ -408,6 +408,29 @@ Add `db.json` file on the root position of this project and enter this command`n
 
 <img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/184803134-ebbc2b38-84f6-4fd0-99f3-9160502f00f6.png">
 
+## Connect with backend
+
+In order to connect backend with angular project, we need several modules from `@angular/common/http`.
+
+- HttpClientModule: The HttpClientModule is a service module provided by Angular that allows us to perform HTTP requests and easily manipulate those requests and their responses. It is called a service module because it only instantiates services and does not export any components, directives or pipes.
+
+- HttpClient: Performs HTTP requests. This service is available as an injectable class, with methods to perform HTTP requests. Each request method has multiple signatures, and the return type varies based on the signature that is called (mainly the values of observe and responseType).
+
+- HttpHeaders: Represents the header configuration options for an HTTP request. Instances are immutable. Modifying methods return a cloned instance with the change. The original object is never changed.
+
+And `TaskService` class would be changed like below.
+
+```typescript
+export class TaskService {
+  private apiUrl = "http://localhost:5000/tasks";
+  constructor(private http: HttpClient) {}
+
+  getTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.apiUrl);
+  }
+}
+```
+
 ## References
 
 - https://youtu.be/3dHNOWTI7H8
@@ -418,3 +441,5 @@ Add `db.json` file on the root position of this project and enter this command`n
 - https://angular.io/api/core/OnInit
 - https://www.pluralsight.com/guides/repeating-data-with-ngfor
 - https://angular.io/guide/architecture-services
+- https://indepth.dev/posts/1142/exploring-the-httpclientmodule-in-angular
+- https://angular.io/api/common/http/HttpClient#description
