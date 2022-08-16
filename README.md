@@ -406,6 +406,8 @@ Add scripts: `package.json > "scripts" > "server": "json-server --watch db.json 
 
 Add `db.json` file on the root position of this project and enter this command`npm run server`. And then, you can find fake database on `localhost:5000/tasks`.
 
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/184803134-ebbc2b38-84f6-4fd0-99f3-9160502f00f6.png">
+
 ## References
 
 - https://youtu.be/3dHNOWTI7H8
