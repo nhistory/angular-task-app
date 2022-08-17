@@ -431,6 +431,83 @@ export class TaskService {
 }
 ```
 
+## Delete task feature
+
+If we click `x` icon, that specific task should be deleted. In order to do this feature, you need to add delete method not only `task-item component` but also `task.service`.
+
+### 1. onDelete(task)
+
+On the task-item component, `onDelete` method should be created.
+
+task-item.component.html
+
+```html
+<fa-icon
+  (click)="onDelete(task)"
+  [ngStyle]="{ color: 'red' }"
+  [icon]="faTimes"
+></fa-icon>
+```
+
+task-item.component.ts
+
+```typescript
+  // Method for click event
+  onDelete(task: Task) {
+    this.onDeleteTask.emit(task);
+  }
+```
+
+### 2. Output for task component
+
+Task component need to figure out delete click event from task-item component. To do this, we can add @Output on the task-item.component.ts.
+
+task-item.component.ts
+
+```typescript
+  @Output() onDeleteTask: EventEmitter<Task> = new EventEmitter();
+```
+
+And task component take this `onDeleteTask` method on the task.component.html.
+
+task.component.html
+
+```html
+<app-task-item
+  *ngFor="let task of tasks"
+  [task]="task"
+  (onDeleteTask)="deleteTask(task)"
+></app-task-item>
+```
+
+### 3. deleteTask(task) method between service and task component.
+
+Now, you need make `deleteTask` method on the task.component.ts and define on service.
+
+task.component.ts
+
+```typescript
+  // Take deletaTask function from service
+  // Delete onDelete task and subscribe which is filtered
+  deleteTask(task: Task) {
+    this.taskService
+      .deleteTask(task)
+      .subscribe(
+        () => (this.tasks = this.tasks.filter((t) => t.id !== task.id))
+      );
+  }
+```
+
+task.service.ts
+
+```typescript
+  // Function to delete task -> tasks.component.ts
+  deleteTask(task: Task): Observable<Task> {
+    const url = `${this.apiUrl}/${task.id}`;
+    return this.http.delete<Task>(url);
+  }
+```
+
 ## References
 
 - https://youtu.be/3dHNOWTI7H8
