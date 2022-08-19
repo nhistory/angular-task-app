@@ -26,9 +26,14 @@ export class TaskService {
     return this.http.delete<Task>(url);
   }
 
-  //
+  // Function to update task reminder from double click
   updateTaskReminder(task: Task): Observable<Task> {
     const url = `${this.apiUrl}/${task.id}`;
     return this.http.put<Task>(url, task, httpOptions);
+  }
+
+  // Function to add new task on the list
+  addTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, task, httpOptions);
   }
 }

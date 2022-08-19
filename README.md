@@ -508,6 +508,26 @@ task.service.ts
   }
 ```
 
+## FormsModule
+
+- FormsModule: Exports the required providers and directives for template-driven forms, making them available for import by NgModules that import this module. ReactiveFormsModule. Exports the required infrastructure and directives for reactive forms, making them available for import by NgModules that import this module.
+
+### Data binding with html tag
+
+add-task.component.html
+
+```html
+<input
+  type="text"
+  name="text"
+  [(ngModel)]="text"
+  id="text"
+  placeholder="Add Task"
+/>
+```
+
+We can use `[(ngModel)]=""` for data binding. Each of the input tag has their own `ngModel` attribute to bind data.
+
 ## References
 
 - https://youtu.be/3dHNOWTI7H8
