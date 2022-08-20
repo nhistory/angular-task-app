@@ -591,6 +591,14 @@ header.component.html
 ></app-button>
 ```
 
+## Showing add-task form with toggle button
+
+Finally, we will add showing add-task form feature with toggle button. To do this, you need to use `UiService`, `Subscription` on the `add-task` component such as the header component. We also make variables `showAddTask`, `subscription` and `UiService` object. After this, `*ngIf="showAddTask"` should be added on the `form` tag of add-task component.
+
+```html
+<form *ngIf="showAddTask" class="add-form" (ngSubmit)="onSubmit()"></form>
+```
+
 ## References
 
 - https://youtu.be/3dHNOWTI7H8
