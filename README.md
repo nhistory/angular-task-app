@@ -528,6 +528,69 @@ add-task.component.html
 
 We can use `[(ngModel)]=""` for data binding. Each of the input tag has their own `ngModel` attribute to bind data.
 
+## Button toggle when user clicked
+
+Now, you probably want to make button text and color changable when user clicked. In order to do this, we need to make another service. `ng generate service services/ui`
+
+Then we will make two private variable and functions.
+
+ui.service.ts
+
+```typescript
+export class UiService {
+  private showAddTask: boolean = false;
+  private subject = new Subject<any>();
+
+  constructor() {}
+
+  toggleAddTask(): void {
+    this.showAddTask = !this.showAddTask;
+    this.subject.next(this.showAddTask);
+  }
+
+  onToggle(): Observable<any> {
+    return this.subject.asObservable();
+  }
+}
+```
+
+On the header component, import `UiService` and subscribe after making `uiService` object by using constructor.
+
+header.component.ts
+
+```typescript
+export class HeaderComponent implements OnInit {
+  title: string = "Task Tracker";
+  // To add toggle feature
+  showAddTask: boolean = true;
+  subscription!: Subscription;
+
+  constructor(private uiService: UiService) {
+    this.subscription = this.uiService
+      .onToggle()
+      .subscribe((value) => (this.showAddTask = value));
+  }
+
+  ngOnInit(): void {}
+
+  toggleAddTask() {
+    this.uiService.toggleAddTask();
+  }
+}
+```
+
+And you can change color and text of the button by using attribute below.
+
+header.component.html
+
+```html
+<app-button
+  color="{{ showAddTask ? 'red' : 'green' }}"
+  text="{{ showAddTask ? 'Close' : 'Add' }}"
+  (btnClick)="toggleAddTask()"
+></app-button>
+```
+
 ## References
 
 - https://youtu.be/3dHNOWTI7H8
