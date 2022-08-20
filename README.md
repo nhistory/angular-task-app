@@ -10,6 +10,8 @@ An task application made by Angular framework with angular CLI 13.3.6.
 - Created and updated components and module declarations by Angular CLI command.
 - Shared data between components with using Input, Output, EventEmitter modules.
 - Generated services to handle task data and adding task control features.
+- Added toggle feature with Observable and Subscribe module.
+- Used RouteModule and Route to control routing between components.
 
 ## Development server
 
@@ -597,6 +599,36 @@ Finally, we will add showing add-task form feature with toggle button. To do thi
 
 ```html
 <form *ngIf="showAddTask" class="add-form" (ngSubmit)="onSubmit()"></form>
+```
+
+## Angular Router feature
+
+In order to fully use Angular framework, `RouteModule` and `Route` is mandatory. With route controll, you can handle components with url such as `/about`. For using this, there are several steps.
+
+### 1. Import route modules and make route list
+
+app.module.ts
+
+```typescript
+import { RouterModule, Routes } from '@angular/router';
+...
+// Make Route list
+const appRoutes: Routes = [
+  { path: '', component: TasksComponent },
+  { path: 'about', component: AboutComponent },
+];
+```
+
+### 2. Use routerLink on component html
+
+To use router feature, `routerLink` should be added on the specific html tag with targeted url.
+
+```html
+<div>
+  <h2>Task App</h2>
+  <h4>Version: 1.0.0</h4>
+  <a routerLink="/">Go Back</a>
+</div>
 ```
 
 ## References
