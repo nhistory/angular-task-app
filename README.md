@@ -27,6 +27,11 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 <img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/182270093-4dcf2b86-9439-4bf5-aa1c-e5a53f06523a.png">
 
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/185768279-295acbb1-3d1f-4744-a146-b70de1d5040d.png">
+
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/39740066/185773453-c054fbc1-840a-4269-a9ac-7e0d58a0907f.png">
+
+
 - `NgModule`: @NgModule takes a metadata object that describes how to compile a component's template and how to create an injector at runtime. It identifies the module's own components, directives, and pipes, making some of them public, through the exports property, so that external components can use them.
 
 ```typescript
